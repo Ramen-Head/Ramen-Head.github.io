@@ -1,1 +1,135 @@
-Hello World
+<!-- Create the canvas -->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Title on the tab in the web browser -->
+    <title>Welcome to the rice fields mf</title>
+
+    <style>
+        /* defines the border and background color for the canvas we create */
+        canvas {
+            border: 1px solid #d3d3d3;
+            background-image: url("Vietnam.jpg");
+        }
+    </style>
+</head>
+
+<!-- this will call the startGame() function when the body loads -->
+<body onload="startGame()">
+
+    <script>
+      var audio = new Audio('fortunate.mp3');
+      audio.play();
+        var myGamePiece;
+        var stock;
+        document.onkeydown = checkKey;
+        //Here we will initialize the start start of the game
+        function startGame() {
+          myGamePiece = new component(109, 160, "soldier-removebg-preview.png", 10, 120, "image");
+            //stock = new component(200, 100, "stock.jpg", 400, 400, "image");
+            myGameArea.start();
+        }
+        function component(width, height, color, x, y, type) {
+          this.width = width;
+          this.height= height;
+          this.type = type;
+          this.x = x;
+          this.y = y;
+
+        if(this.type == "image"){
+          this.img = document.createElement('img');
+          this.img.src = color;
+          this.img.alt = "could not display";
+
+        }
+
+          this.update = function() {
+            ctx = myGameArea.context;
+
+          if(this.type == "rect") {
+            ctx.fillStyle = this.color;
+            ctx.fillRect(this.x, this.y, this.width, this.height);
+
+            }
+          else if(this.type == "image"){
+            ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
+            }
+          }
+        }
+        //Defines the game area
+        var myGameArea = {
+
+                //Creates the canvas element
+
+                canvas: document.createElement("canvas"),
+                start: function () {
+                    this.canvas.width = 1900;
+                    this.canvas.height = 1000;
+                    this.context = this.canvas.getContext("2d");
+                    document.body.insertBefore(this.canvas, document.body.childNodes[0]);
+                    this.frameNo = 0;
+
+                    //This will call updateGameArea every 20 ms
+                    this.interval = setInterval(updateGameArea, 20);
+                },
+                clear: function () {
+                    this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+                }
+            }
+
+        //Dont worry about this so much
+        function everyinterval(n) {
+            if ((myGameArea.frameNo / n) % 1 == 0) { return true; }
+            return false;
+        }
+
+        //In this function you need to define what is going to change every frame
+        function updateGameArea() {
+          myGameArea.clear();
+          myGamePiece.update();
+          stock.update();
+        }
+
+        function checkKey(e) {
+          if(e.keyCode == '87') {
+            myGamePiece.y = myGamePiece.y -=8;
+          }
+          if(e.keyCode == '83') {
+            myGamePiece.y = myGamePiece.y +=8;
+          }
+          if(e.keyCode == '68') {
+            myGamePiece.x = myGamePiece.x +=8;
+          }
+          if(e.keyCode == '65') {
+            myGamePiece.x = myGamePiece.x -=8;
+          }
+          if(e.keyCode == '81') {
+            myGamePiece.y = myGamePiece.y -=8;
+            myGamePiece.x = myGamePiece.x -=8;
+          }
+          if(e.keyCode == '69') {
+            myGamePiece.y = myGamePiece.y -=8;
+            myGamePiece.x = myGamePiece.x +=8;
+          }
+          if(e.keyCode == '67') {
+            myGamePiece.y = myGamePiece.y +=8;
+            myGamePiece.x = myGamePiece.x +=8;
+          }
+          if(e.keyCode == '90') {
+            myGamePiece.y = myGamePiece.y +=8;
+            myGamePiece.x = myGamePiece.x -=8;
+          }
+        }
+    </script>
+
+    <h3>Fortunate Son intesifies</h3>
+
+
+
+</body>
+
+</html>
